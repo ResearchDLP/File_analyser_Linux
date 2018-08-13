@@ -1,0 +1,56 @@
+Interested in learning
+more about security?SANS Institute
+InfoSec Reading RoomThis paper is from the SANS Institute Reading Room site. Reposting is not permitted without express written permission.Writing a Penetration Testing Report
+
+Writing a penetration testing report is an art that needs to be learned to make sure that the report has
+delivered the right message to the right people. The report will be sent to the target organization€s senior
+
+management and technical team as well. For this reason, we, as penetration testers, need to deliver the reportin a way that serves our objective to secure the information. This paper will explain the penetration testing
+report writing methodology, based on the author&#039;s experiences, describing the report...
+Copyright SANS InstituteAuthor Retains Full RightsADLast Updated: May 13th, 2018
+
+Upcoming SANS Training
+Click Here for a full list of all Upcoming SANS Events by Location
+SANS Northern VA Reston Spring 2018
+Reston, VAUS
+May 20, 2018 - May 25, 2018Live EventSANS Amsterdam May 2018
+Amsterdam, NLMay 28, 2018 - Jun 02, 2018Live EventSANS Atlanta 2018
+Atlanta, GAUSMay 29, 2018 - Jun 03, 2018Live EventSANS London June 2018London, GBJun 04, 2018 - Jun 12, 2018Live EventSANS Rocky Mountain 2018Denver, COUS
+Jun 04, 2018 - Jun 09, 2018Live EventSEC487: Open-Source Intel Beta Two
+Denver, COUS
+Jun 04, 2018 - Jun 09, 2018Live EventDFIR Summit & Training 2018
+Austin, TXUS
+Jun 07, 2018 - Jun 14, 2018Live EventCloud INsecurity Summit - Washington DC
+Crystal City, VAUS
+Jun 08, 2018 - Jun 08, 2018Live EventCloud INsecurity Summit - Austin
+Austin, TXUS
+Jun 11, 2018 - Jun 11, 2018
+Live EventSANS Milan June 2018Milan, ITJun 11, 2018 - Jun 16, 2018
+Live EventSANS ICS Europe Summit and Training 2018
+Munich, DEJun 18, 2018 - Jun 23, 2018Live EventSANS Crystal City 2018Arlington, VAUS
+Jun 18, 2018 - Jun 23, 2018Live EventSANS Oslo June 2018Oslo, NOJun 18, 2018 - Jun 23, 2018Live EventSANS Cyber Defence Japan 2018
+Tokyo, JP
+Jun 18, 2018 - Jun 30, 2018Live EventSANS Philippines 2018Manila, PHJun 18, 2018 - Jun 23, 2018Live EventSANS Minneapolis 2018Minneapolis, MNUSJun 25, 2018 - Jun 30, 2018Live EventSANS Vancouver 2018
+Vancouver, BCCA
+Jun 25, 2018 - Jun 30, 2018Live EventSANS Paris June 2018Paris, FRJun 25, 2018 - Jun 30, 2018Live EventSANS Cyber Defence Canberra 2018
+Canberra, AU
+Jun 25, 2018 - Jul 07, 2018Live EventSANS London July 2018London, GBJul 02, 2018 - Jul 07, 2018Live EventSANS Cyber Defence Singapore 2018
+Singapore, SG
+Jul 09, 2018 - Jul 14, 2018Live EventSANS Charlotte 2018Charlotte, NCUSJul 09, 2018 - Jul 14, 2018Live EventSANSFIRE 2018Washington, DCUS
+Jul 14, 2018 - Jul 21, 2018Live EventSANS Cyber Defence Bangalore 2018
+Bangalore, IN
+Jul 16, 2018 - Jul 28, 2018Live EventSANS Malaysia 2018Kuala Lumpur, MY
+Jul 16, 2018 - Jul 21, 2018Live EventSANS Pen Test Berlin 2018
+Berlin, DEJul 23, 2018 - Jul 28, 2018Live EventSANS Riyadh July 2018Riyadh, SAJul 28, 2018 - Aug 02, 2018
+Live EventSecurity Operations Summit & Training 2018
+New Orleans, LAUSJul 30, 2018 - Aug 06, 2018
+Live EventSANS Pittsburgh 2018Pittsburgh, PAUS
+Jul 30, 2018 - Aug 04, 2018
+Live EventSANS San Antonio 2018
+San Antonio, TXUS
+Aug 06, 2018 - Aug 11, 2018
+Live EventSANS Boston Summer 2018
+Boston, MAUSAug 06, 2018 - Aug 11, 2018
+Live EventSecurity Awareness Summit & Training 2018
+Charleston, SCUSAug 06, 2018 - Aug 15, 2018
+Live EventSANS Melbourne 2018OnlineAUMay 14, 2018 - May 26, 2018Live EventSANS OnDemandBooks & MP3s OnlyUSAnytimeSelf Paced
