@@ -16,6 +16,17 @@ python `pdf_extract.py <file>`
  **- Input file as a variable**
 
     python pdf_extract.py
+    
+Python packages  
+ - [x] PyPDF2
+ - [x] docx
+ - [x] docx2txt
+ - [x] os
+ - [x] python-magic
+ - [x] xlrd
+ - [x] zipfile
+ - [x] shutil
+ - [x] fitz
 
 
  
