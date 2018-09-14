@@ -245,9 +245,21 @@ if os.path.isfile(test_file) == True :
             #out_img = os.system(cmd)
             output[count][0] = filename
             output[count][1], output[count][2], output[count][3] = im.image_classifier(file_path)
+            overview = ""
+            score = 0.0
+            if output[count][1] != "Other":
+                if score < output[count][3]:
+                    score = output[count][3]
+                    category = output[count][1]
 
             print (output[count][0],output[count][1],output[count][2],output[count][3])
+
             count += 1
+
+        print("Score : " + str(score))
+        print("Category : " + str(overview))
+
+
 
         for row in output:
             for elem in row:
