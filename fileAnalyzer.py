@@ -259,17 +259,8 @@ if os.path.isfile(test_file) == True :
         print("Score : " + str(score))
         print("Category : " + str(overview))
 
-
-
-        for row in output:
-            for elem in row:
-                if elem == 'High' or 'Medium':
-                    if elem != 'Other':
-                        print(elem)
-
-
         #output[count][4] = text_analyser()
-        return 0
+        return Score,Category
 
 
     evidence = copy_evid(test_file)
