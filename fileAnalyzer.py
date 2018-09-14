@@ -220,7 +220,7 @@ if os.path.isfile(test_file) == True :
         fr = open("output_text/output.txt", "r")
         if fr.mode == 'r':
             contents = fr.read()
-        print("Text analyser")
+        #print("Text analyser")
         cl = Classifier()
         return  cl.classifer(contents)
 
@@ -259,7 +259,7 @@ if os.path.isfile(test_file) == True :
         print("Score : " + str(score))
         print("Category : " + str(overview))
 
-        #output[count][4] = text_analyser()
+        output[0][4] = text_analyser()
         return Score,Category
 
 
@@ -274,7 +274,7 @@ if os.path.isfile(test_file) == True :
     extention_comparison()
 
     image_analyser()
-    print(text_analyser())
+    #print(text_analyser())
     cleaner.folderCleaner()
 
 else:
