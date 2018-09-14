@@ -13,21 +13,49 @@ import magic
 import xlrd
 import zipfile
 import shutil
+import platform
 import warnings
+import scripts.Imageclassifier as im
+import cleaner
 #import fitz
 #from openpyxl import load_workbook
 #from pptx import Presentation
 
 # variables ######################
 
-#test_file = sys.argv[1]
-test_file = "ppt_test.pptx"
+test_file = sys.argv[1]
+#test_file = "Logo.png"
+
+os_name = platform.system()
+
+if os_name == 'Windows':
+    if not os.path.exists("C:\Program Files\ALEKSI\FileAnalyzer\images"):
+        os.makedirs("C:\Program Files\ALEKSI\FileAnalyzer\images")
+
+    if not os.path.exists("C:\Program Files\ALEKSI\FileAnalyzer\Evidence"):
+        os.makedirs("C:\Program Files\ALEKSI\FileAnalyzer\Evidence")
+
+    media_loc_excel = r"C:\Program Files\ALEKSI\FileAnalyzer\unzip_dir\xl\media\\"
+    media_loc_ppt = r"C:\Program Files\ALEKSI\FileAnalyzer\unzip_dir\ppt\media\\"
+    evidence_path = r"C:\Program Files\ALEKSI\FileAnalyzer\Evidence\\"
 
 ##################################
+if not os.path.exists("output_text"):
+    os.makedirs("output_text")
+
+if not os.path.exists("C:\Program Files\ALEKSI\FileAnalyzer\images"):
+    os.makedirs("C:\Program Files\ALEKSI\FileAnalyzer\images")
 
 fw = open("output_text/output.txt", "w+")
 
 #################################
+
+def copy_evid(test_file):
+    shutil.copy(test_file, evidence_path)
+    for filename in os.listdir(evidence_path):
+        file_path = evidence_path + filename
+    return file_path
+
 
 # (check) File Exists
 
@@ -35,7 +63,9 @@ if os.path.isfile(test_file) == True :
     # Extension check
     def extention_check(file_name):
         extension = os.path.splitext(file_name)[1]
+        extension = extension + ".NA"
         file_ext = extension.split(".")
+        print(file_ext[1])
         return file_ext[1].lower()
 
 
@@ -47,7 +77,7 @@ if os.path.isfile(test_file) == True :
             pageobj = pdfReader.getPage(y)
             text = pageobj.extractText()
             fw.truncate(0)
-            fw.write(text)
+            fw.write(str(text))
         return 0
 
     def text_from_doc(file_name):
@@ -55,7 +85,7 @@ if os.path.isfile(test_file) == True :
         doc_num = len(docFileObj.paragraphs)
         for x in range(0, doc_num):
             doc_text = docFileObj.paragraphs[x].text
-            print(doc_text)
+            fw.write(str(doc_text))
         return 0
 
 
@@ -64,7 +94,8 @@ if os.path.isfile(test_file) == True :
         file_name = test_file.split(".")
         output = file_name[0] +'-ascii.txt'
         os.system('more '+ output)
-
+        fw.write(str(output))
+        return 0
 
     def text_from_xlr(test_file):
         book = xlrd.open_workbook("Book1.xlsx")
@@ -73,12 +104,15 @@ if os.path.isfile(test_file) == True :
         print("Worksheet name(s): {0}".format(book.sheet_names()))
         sh = book.sheet_by_index(0)
         for rx in range(sh.nrows):
-            print(sh.row(rx))
+            fw.write(str(sh.row(rx)))
+            #print(sh.row(rx))
+        return 0
 
 ##################################
 
     def image_from_pdf(test_file):
-        path = "E:\Research\Project\websnif\images\\"
+        #path = "E:\Research\Project\websnif\images\\"
+        path = "C:\Program Files\ALEKSI\FileAnalyzer\images\\"
         doc = fitz.open(test_file)
         for i in range(len(doc)):
             for img in doc.getPageImageList(i):
@@ -97,7 +131,7 @@ if os.path.isfile(test_file) == True :
         ABS_PATH = os.path.dirname(os.path.realpath(test_file))
         print(ABS_PATH)
         source = os.path.join(ABS_PATH)
-        directory = r"E:\Research\Project\websnif\images/"
+        directory = r"C:\Program Files\ALEKSI\FileAnalyzer\images/"
         filename = "\\" + test_file
         filename, file_extension = os.path.splitext(filename)
         filename = filename + file_extension
@@ -110,14 +144,15 @@ if os.path.isfile(test_file) == True :
     def image_from_excel(test_file):
         filename, file_extension = os.path.splitext(test_file)
         zip_file = filename + ".zip"
+
         os.rename(test_file, zip_file)
         with zipfile.ZipFile(zip_file, "r") as zip_ref:
             zip_ref.extractall("unzip_dir")
-        media_loc = r"/home/avishka/Desktop/extract/websnif/unzip_dir/xl/media/"
-        for filename in os.listdir(media_loc):
-            image_path = media_loc + filename
+        #media_loc_excel = r"C:\Program Files\ALEKSI\FileAnalyzer\unzip_dir\xl\media\\"
+        for filename in os.listdir(media_loc_excel):
+            image_path = media_loc_excel + filename
             print(image_path)
-            shutil.move(image_path, "/home/avishka/Desktop/extract/websnif/images")
+            shutil.move(image_path, "Images\\")
 
     def image_from_ppt(test_file):
         print("ppt image")
@@ -126,11 +161,14 @@ if os.path.isfile(test_file) == True :
         os.rename(test_file, zip_file)
         with zipfile.ZipFile(zip_file, "r") as zip_ref:
             zip_ref.extractall("unzip_dir")
-        media_loc = r"/home/avishka/Desktop/extract/websnif/unzip_dir/ppt/media/"
-        for filename in os.listdir(media_loc):
-            image_path = media_loc + filename
+        #media_loc_ppt = r"C:\Program Files\ALEKSI\FileAnalyzer\unzip_dir\ppt\media\\"
+        for filename in os.listdir(media_loc_ppt):
+            image_path = media_loc_ppt + filename
             print("ppt_func : " + image_path)
-            shutil.move(image_path, "/home/avishka/Desktop/extract/websnif/images")
+            shutil.move(image_path, "C:\Program Files\ALEKSI\FileAnalyzer\images\\")
+
+    def image_only(test_file):
+        shutil.copy(test_file, 'Images\\')
 
     def magic_num_check(file_name):
         magic_output = magic.from_file(file_name, mime=True)
@@ -157,18 +195,21 @@ if os.path.isfile(test_file) == True :
     def extention_comparison():
         if extention_check(test_file) == magic_num_check(test_file):
             print("☑Extentions are ok")
-            if extention_check(test_file) == "pdf":
-                text_from_pdf(test_file)
-                image_from_pdf(test_file)
-            elif extention_check(test_file) == "docx":
-                text_from_doc(test_file)
-                image_from_doc(test_file)
-            elif extention_check(test_file) == "pptx":
-                text_from_ppt(test_file)
-                image_from_ppt(test_file)
-            elif extention_check(test_file) == "xlsx":
-                text_from_xlr(test_file)
-                image_from_excel(test_file)
+            if extention_check(evidence) == "pdf":
+                text_from_pdf(evidence)
+                image_from_pdf(evidence)
+            elif extention_check(evidence) == "docx":
+                text_from_doc(evidence)
+                image_from_doc(evidence)
+            elif extention_check(evidence) == "pptx":
+                text_from_ppt(evidence)
+                image_from_ppt(evidence)
+            elif extention_check(evidence) == "xlsx":
+                text_from_xlr(evidence)
+                image_from_excel(evidence)
+            elif extention_check(evidence) == "jpg":
+                image_only(evidence)
+
             return 0
         else:
             print(" ALERT : File type mismatch ")
@@ -176,41 +217,62 @@ if os.path.isfile(test_file) == True :
 
 
     def text_analyser():
-
-        text_val = "Nigerian prince"
+        fr = open("output_text/output.txt", "r")
+        if fr.mode == 'r':
+            contents = fr.read()
         print("Text analyser")
         cl = Classifier()
-        return  cl.classifer(text_val)
-
-
+        return  cl.classifer(contents)
 
 
     def image_analyser():
+        print("Image Analyzer Code accessed")
+        image_path = 'Images\\'
+        #graph_path = ' "scripts\\tf_files\\retrained_graph.pb"'
+        #label_path =  ' "scripts\\tf_files\\retrained_labels.txt"'
+        #print(graph_path)
+        #print (label_path)
 
-        image_path = "/home/avishka/Desktop/extract/websnif/images/"
-        graph_path = ' /home/avishka/Desktop/extract/scripts/tf_files/retrained_graph.pb'
-        label_path =  ' /home/avishka/Desktop/extract/scripts/tf_files/retrained_labels.txt'
+        numfile = len([f for f in os.listdir(image_path) if f[0] != '.'])
+        count = 0
+        output  = [[0 for j in range(5)] for i in range(numfile)]
+
         for filename in os.listdir(image_path):
             file_path = image_path + filename
-            print(file_path)
             #os.chdir("/home/avishka/Desktop/extract/websnif/scripts")
-            cmd = 'python /home/avishka/Desktop/extract/scripts/classifier.py ' + file_path + graph_path + label_path + " 2> /dev/null"
+            #cmd = 'python "C:\Program Files\ALEKSI\FileAnalyzer\scripts\classifier.py" ' + file_path + graph_path + label_path
             #print(cmd)
-            out_img = os.system(cmd)
+            #out_img = os.system(cmd)
+            output[count][0] = filename
+            output[count][1], output[count][2], output[count][3] = im.image_classifier(file_path)
 
+            print (output[count][0],output[count][1],output[count][2],output[count][3])
+            count += 1
+
+        for row in output:
+            for elem in row:
+                if elem == 'High' or 'Medium':
+                    if elem != 'Other':
+                        print(elem)
+
+
+        #output[count][4] = text_analyser()
         return 0
 
 
-    image_analyser()
-    print(text_analyser())
+    evidence = copy_evid(test_file)
 
-    t1 = extention_check(test_file)
+    t1 = extention_check(evidence)
     print(t1)
 
-    t2 = magic_num_check(test_file)
+    t2 = magic_num_check(evidence)
     print(t2)
 
     extention_comparison()
+
+    image_analyser()
+    print(text_analyser())
+    cleaner.folderCleaner()
 
 else:
     print("Input Error : File doesnt exists")
