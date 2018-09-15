@@ -11,11 +11,11 @@ uncomment line `test_file = sys.argv[1]` & comment line `test_file = "ppt_test.p
 
  **- Input File as a command line arguments**
 
-python `pdf_extract.py <file>`
+python `fileAnalyzer.py <file>`
 
  **- Input file as a variable**
 
-    python pdf_extract.py
+    python fileAnalyzer.py
     
 Python packages  
  - [x] PyPDF2
