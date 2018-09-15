@@ -227,7 +227,7 @@ if os.path.isfile(test_file) == True :
 
     def image_analyser():
         print("Image Analyzer Code accessed")
-        image_path = 'Images\\'
+        image_path = 'C:\Program Files\ALEKSI\FileAnalyzer\Images\\'
         #graph_path = ' "scripts\\tf_files\\retrained_graph.pb"'
         #label_path =  ' "scripts\\tf_files\\retrained_labels.txt"'
         #print(graph_path)
