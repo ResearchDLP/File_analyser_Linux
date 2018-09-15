@@ -220,7 +220,7 @@ if os.path.isfile(test_file) == True :
         fr = open("output_text/output.txt", "r")
         if fr.mode == 'r':
             contents = fr.read()
-        #print("Text analyser")
+        print("Text analyser")
         cl = Classifier()
         return  cl.classifer(contents)
 
@@ -237,6 +237,9 @@ if os.path.isfile(test_file) == True :
         count = 0
         output  = [[0 for j in range(5)] for i in range(numfile)]
 
+        category = ""
+        score = 0
+
         for filename in os.listdir(image_path):
             file_path = image_path + filename
             #os.chdir("/home/avishka/Desktop/extract/websnif/scripts")
@@ -245,22 +248,23 @@ if os.path.isfile(test_file) == True :
             #out_img = os.system(cmd)
             output[count][0] = filename
             output[count][1], output[count][2], output[count][3] = im.image_classifier(file_path)
-            overview = ""
-            score = 0.0
+
             if output[count][1] != "Other":
                 if score < output[count][3]:
+
                     score = output[count][3]
                     category = output[count][1]
 
-            print (output[count][0],output[count][1],output[count][2],output[count][3])
+            print (output[count][0], output[count][1], output[count][2], output[count][3])
 
             count += 1
 
         print("Score : " + str(score))
-        print("Category : " + str(overview))
+        print("Category : " + str(category))
 
-        output[0][4] = text_analyser()
-        return Score,Category
+
+        #output[0][4] = text_analyser()
+        return score, category
 
 
     evidence = copy_evid(test_file)
@@ -274,7 +278,7 @@ if os.path.isfile(test_file) == True :
     extention_comparison()
 
     image_analyser()
-    #print(text_analyser())
+    print(text_analyser())
     cleaner.folderCleaner()
 
 else:
