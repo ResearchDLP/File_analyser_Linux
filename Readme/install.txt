@@ -1,0 +1,10 @@
+python_docx-0.8.6-py2.py3-none-any.whl
+pymupdf
+PyPDF2
+python-docx
+docx2txt
+python-magic
+xlrd
+fitz
+openpyxl
+pptx
