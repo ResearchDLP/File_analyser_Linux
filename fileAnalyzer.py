@@ -19,6 +19,7 @@ import warnings
 #import cleaner
 import importlib.util
 import fitz
+import getpass
 #from openpyxl import load_workbook
 #from pptx import Presentation
 
@@ -31,6 +32,9 @@ def fileAnalyzer(external_file):
     test_file = external_file
     #test_file = sys.argv[1]
     #test_file = "Logo.png"
+
+    username = getpass.getuser()
+    print(username)
 
     spec_text = importlib.util.spec_from_file_location("module.name", "C:\Program Files\ALEKSI\FileAnalyzer\\text\\f4.py" )
     foo_text = importlib.util.module_from_spec(spec_text)
@@ -48,28 +52,37 @@ def fileAnalyzer(external_file):
     os_name = platform.system()
 
     if os_name == 'Windows':
-        if not os.path.exists("C:\Program Files\ALEKSI\FileAnalyzer\images"):
-            os.makedirs("C:\Program Files\ALEKSI\FileAnalyzer\images")
+        if not os.path.exists("C:\\Users\\" + username + "\AppData\Local\Temp\ALEKSI\FileAnalyzer\images"):
+            os.makedirs("C:\\Users\\" + username + "\AppData\Local\Temp\ALEKSI\FileAnalyzer\images")
 
-        if not os.path.exists("C:\Program Files\ALEKSI\FileAnalyzer\Evidence"):
-            os.makedirs("C:\Program Files\ALEKSI\FileAnalyzer\Evidence")
+        if not os.path.exists("C:\\Users\\"+ username +"\AppData\Local\Temp\ALEKSI\FileAnalyzer\Evidence"):
+            os.makedirs("C:\\Users\\"+ username +"\AppData\Local\Temp\ALEKSI\FileAnalyzer\Evidence")
 
-        if not os.path.exists("C:\Program Files\ALEKSI\FileAnalyzer\\unzip_dir"):
-            os.makedirs("C:\Program Files\ALEKSI\FileAnalyzer\\unzip_dir")
+        if not os.path.exists("C:\\Users\\" + username + "\AppData\Local\Temp\ALEKSI\\unzip_dir"):
+            os.makedirs("C:\\Users\\" + username + "\AppData\Local\Temp\ALEKSI\\unzip_dir")
 
-        media_loc_excel = r"C:\Program Files\ALEKSI\FileAnalyzer\unzip_dir\xl\media\\"
-        media_loc_ppt = r"C:\Program Files\ALEKSI\FileAnalyzer\unzip_dir\ppt\media\\"
-        evidence_path = r"C:\Program Files\ALEKSI\FileAnalyzer\Evidence\\"
+        if not os.path.exists("C:\\Users\\" + username + "\AppData\Local\Temp\ALEKSI\FileAnalyzer\output_text"):
+            os.makedirs("C:\\Users\\" + username + "\AppData\Local\Temp\ALEKSI\FileAnalyzer\output_text")
+
+        media_loc_excel = r"C:\Users\\" + username + "\\AppData\Local\Temp\ALEKSI\\unzip_dir\\xl\media\\"
+        media_loc_ppt = r"C:\Users\\"+ username +"\\AppData\Local\Temp\ALEKSI\\unzip_dir\ppt\media\\"
+        evidence_path = r"C:\\Users\\"+ username +"\\AppData\Local\Temp\ALEKSI\FileAnalyzer\Evidence\\"
+
+        #evidence_path = (os.path.expanduser("~\AppData\Local\Temp\ALEKSI\Evidence"))
+
 
     ##################################
+
+    '''
     if not os.path.exists("C:\Program Files\ALEKSI\FileAnalyzer\output_text"):
         os.makedirs("C:\Program Files\ALEKSI\FileAnalyzer\output_text")
 
     if not os.path.exists("C:\Program Files\ALEKSI\FileAnalyzer\images"):
         os.makedirs("C:\Program Files\ALEKSI\FileAnalyzer\images")
 
+    '''
 
-    fw = open("C:\Program Files\ALEKSI\FileAnalyzer\output_text\output.txt", "w+")
+    fw = open("C:\\Users\\" + username + "\AppData\Local\Temp\ALEKSI\FileAnalyzer\output_text\output.txt", "w+")
 
     #################################
 
@@ -90,7 +103,6 @@ def fileAnalyzer(external_file):
             #print("Extention from FIle : " + file_ext[1])
             return file_ext[1].lower()
 
-
         def text_from_pdf(file_name) :
             pdfFileObj = open(file_name, 'rb')
             pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
@@ -109,7 +121,6 @@ def fileAnalyzer(external_file):
                 doc_text = docFileObj.paragraphs[x].text
                 fw.write(str(doc_text))
             return 0
-
 
         def text_from_ppt(test_file):
             os.system('off2txt -s ' + test_file)
@@ -130,11 +141,18 @@ def fileAnalyzer(external_file):
                 #print(sh.row(rx))
             return 0
 
+        def text_from_txt(evidence):
+            with open(evidence) as f:
+                with open("C:\\Users\\" + username + "\AppData\Local\Temp\ALEKSI\FileAnalyzer\output_text\output.txt", "w") as f1:
+                    for line in f:
+                        f1.write(line)
+
+
     ##################################
 
         def image_from_pdf(test_file):
             #path = "E:\Research\Project\websnif\images\\"
-            image_path = "C:\Program Files\ALEKSI\FileAnalyzer\Images\\"
+            image_path = "C:\\Users\\" + username + "\\AppData\Local\Temp\ALEKSI\FileAnalyzer\images\\"
             doc = fitz.open(test_file)
             for i in range(len(doc)):
                 for img in doc.getPageImageList(i):
@@ -153,7 +171,7 @@ def fileAnalyzer(external_file):
             ABS_PATH = os.path.dirname(os.path.realpath(test_file))
             print(ABS_PATH)
             source = os.path.join(ABS_PATH)
-            directory = r"C:\Program Files\ALEKSI\FileAnalyzer\Images/"
+            directory = r"C:\\Users\\" + username + "\\AppData\Local\Temp\ALEKSI\FileAnalyzer\images\\"
             filename = "\\" + test_file
             filename, file_extension = os.path.splitext(filename)
             filename = filename + file_extension
@@ -168,12 +186,12 @@ def fileAnalyzer(external_file):
 
             os.rename(test_file, zip_file)
             with zipfile.ZipFile(zip_file, "r") as zip_ref:
-                zip_ref.extractall("C:\Program Files\ALEKSI\FileAnalyzer\\unzip_dir")
+                zip_ref.extractall("C:\\Users\\" + username + "\\AppData\Local\Temp\ALEKSI\\unzip_dir")
             #media_loc_excel = r"C:\Program Files\ALEKSI\FileAnalyzer\unzip_dir\xl\media\\"
             for filename in os.listdir(media_loc_excel):
                 image_path = media_loc_excel + filename
                 print(image_path)
-                shutil.move(image_path, "C:\Program Files\ALEKSI\FileAnalyzer\\Images\\")
+                shutil.move(image_path, "C:\\Users\\" + username + "\\AppData\Local\Temp\ALEKSI\FileAnalyzer\images\\")
 
         def image_from_ppt(test_file):
             print("ppt image")
@@ -186,15 +204,15 @@ def fileAnalyzer(external_file):
             for filename in os.listdir(media_loc_ppt):
                 image_path = media_loc_ppt + filename
                 print("ppt_func : " + image_path)
-                shutil.move(image_path, "C:\Program Files\ALEKSI\FileAnalyzer\images\\")
+                shutil.move(image_path, "C:\\Users\\" + username + "\\AppData\Local\Temp\ALEKSI\FileAnalyzer\images\\")
 
         def image_only(test_file):
-            shutil.copy(test_file, 'C:\Program Files\ALEKSI\FileAnalyzer\Images\\')
+            shutil.copy(test_file, 'C:\\Users\\' + username + '\\AppData\Local\Temp\ALEKSI\FileAnalyzer\images\\')
 
         def magic_num_check(file_name):
             magic_output = magic.from_file(file_name, mime=True)
             magic_ext = magic_output.split("/")
-            #print("Magic number check : " + magic_ext[1].lower())
+            print("Magic number check : " + magic_ext[1].lower())
             if magic_ext[1] == "vnd.openxmlformats-officedocument.wordprocessingml.document":
                 magic_ext[1] = "docx"
                 return magic_ext[1].lower()
@@ -212,6 +230,12 @@ def fileAnalyzer(external_file):
                 return magic_ext[1].lower()
             elif magic_ext[1] == "jpeg":
                 magic_ext[1] = "jpg"
+                return magic_ext[1].lower()
+            elif magic_ext[1] == "x-empty" or "plain":
+                magic_ext[1] = "txt"
+                return magic_ext[1].lower()
+            elif magic_ext[1].startswith("RFC"):
+                magic_ext[1] = "txt"
                 return magic_ext[1].lower()
             else:
                 #print("Magic number check : " + magic_ext[1].lower())
@@ -237,6 +261,8 @@ def fileAnalyzer(external_file):
                     image_only(evidence)
                 elif extention_check(evidence) == "jpg":
                     image_only(evidence)
+                elif extention_check(evidence) == "txt":
+                    text_from_txt(evidence)
                 else:
                     return 0
                 return 0
@@ -245,16 +271,19 @@ def fileAnalyzer(external_file):
 
 
         def text_analyser():
-            fr = open("C:\Program Files\ALEKSI\FileAnalyzer\output_text\output.txt", "r")
+
+            fr = open("C:\\Users\\" + username + "\AppData\Local\Temp\ALEKSI\FileAnalyzer\output_text\output.txt", "r")
             if fr.mode == 'r':
                 contents = fr.read()
             cl = foo_text.Classifier()
+            print(cl.classifer(contents))
             return cl.classifer(contents)
 
 
         def image_analyser():
+
             print("Image Analyzer Code accessed")
-            image_path = 'C:\Program Files\ALEKSI\FileAnalyzer\Images\\'
+            image_path = 'C:\\Users\\' + username + '\\AppData\Local\Temp\ALEKSI\FileAnalyzer\images\\'
             #graph_path = ' "scripts\\tf_files\\retrained_graph.pb"'
             #label_path =  ' "scripts\\tf_files\\retrained_labels.txt"'
             #print(graph_path)
@@ -283,7 +312,7 @@ def fileAnalyzer(external_file):
                     if output[count][1] != "others":
                         category = output[count][1]
 
-                print (output[count][0], output[count][1], output[count][2], output[count][3])
+                print(output[count][0], output[count][1], output[count][2], output[count][3])
 
                 count += 1
 
@@ -296,7 +325,6 @@ def fileAnalyzer(external_file):
             output_text = text_analyser()
             result_set.append([score, category, output_text])
             return result_set
-
 
         evidence = copy_evid(test_file)
 
@@ -320,5 +348,7 @@ def fileAnalyzer(external_file):
         print("Input Error : File doesnt exists")
 
     fw.close()
-
+    print(result_img)
     return result_img
+
+fileAnalyzer("test.txt")
