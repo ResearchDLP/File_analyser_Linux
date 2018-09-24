@@ -332,8 +332,12 @@ def fileAnalyzer(external_file):
             print("Score : " + str(score))
             print("Category : " + str(category))
 
+            output_text = "-"
 
-            output_text = text_analyser()
+            if not extention_check(evidence) == "png":
+                if not extention_check(evidence) == "jpg":
+                    output_text = text_analyser()
+
             result_set.append([score, category, output_text])
             return result_set
 
@@ -362,4 +366,4 @@ def fileAnalyzer(external_file):
     return result_img
 
 
-fileAnalyzer("ppt_test.pptx")
+fileAnalyzer("pdffle.pdf")
