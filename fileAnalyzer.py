@@ -79,7 +79,6 @@ def fileAnalyzer(external_file):
             file_path = evidence_path + filename
         return file_path
 
-
     # (check) File Exists
 
     if os.path.isfile(test_file) == True :
@@ -88,7 +87,7 @@ def fileAnalyzer(external_file):
             extension = os.path.splitext(file_name)[1]
             extension = extension + ".NA"
             file_ext = extension.split(".")
-            print(file_ext[1])
+            #print("Extention from FIle : " + file_ext[1])
             return file_ext[1].lower()
 
 
@@ -150,7 +149,6 @@ def fileAnalyzer(external_file):
                         pix1 = None
                     pix = None
 
-
         def image_from_doc(test_file):
             ABS_PATH = os.path.dirname(os.path.realpath(test_file))
             print(ABS_PATH)
@@ -163,7 +161,6 @@ def fileAnalyzer(external_file):
             print(directory)
             print("Source :" + source)
             docx2txt.process("%s%s" % (source, filename), directory)
-
 
         def image_from_excel(test_file):
             filename, file_extension = os.path.splitext(test_file)
@@ -197,6 +194,7 @@ def fileAnalyzer(external_file):
         def magic_num_check(file_name):
             magic_output = magic.from_file(file_name, mime=True)
             magic_ext = magic_output.split("/")
+            #print("Magic number check : " + magic_ext[1].lower())
             if magic_ext[1] == "vnd.openxmlformats-officedocument.wordprocessingml.document":
                 magic_ext[1] = "docx"
                 return magic_ext[1].lower()
@@ -209,10 +207,14 @@ def fileAnalyzer(external_file):
             elif magic_ext[1] == "vnd.openxmlformats-officedocument.spreadsheetml.sheet":
                 magic_ext[1] = "xlsx"
                 return magic_ext[1].lower()
+            elif magic_ext[1] == "png":
+                magic_ext[1] = "png"
+                return magic_ext[1].lower()
             elif magic_ext[1] == "jpeg":
                 magic_ext[1] = "jpg"
                 return magic_ext[1].lower()
             else:
+                #print("Magic number check : " + magic_ext[1].lower())
                 return magic_ext[1].lower()
 
 
@@ -231,12 +233,15 @@ def fileAnalyzer(external_file):
                 elif extention_check(evidence) == "xlsx":
                     text_from_xlr(evidence)
                     image_from_excel(evidence)
+                elif extention_check(evidence) == "png":
+                    image_only(evidence)
                 elif extention_check(evidence) == "jpg":
                     image_only(evidence)
-
+                else:
+                    return 0
                 return 0
             else:
-                return 1
+                print("☑ Extentions mismatch")
 
 
         def text_analyser():
@@ -271,10 +276,11 @@ def fileAnalyzer(external_file):
                 output[count][0] = filename
                 output[count][1], output[count][2], output[count][3] = foo_img.image_classifier(file_path)
 
-                if output[count][1] != "others":
-                    if score < output[count][3]:
+                category = "others"
 
-                        score = output[count][3]
+                if score < output[count][3]:
+                    score = output[count][3]
+                    if output[count][1] != "others":
                         category = output[count][1]
 
                 print (output[count][0], output[count][1], output[count][2], output[count][3])
@@ -316,4 +322,3 @@ def fileAnalyzer(external_file):
     fw.close()
 
     return result_img
-
