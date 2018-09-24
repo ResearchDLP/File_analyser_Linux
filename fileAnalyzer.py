@@ -34,7 +34,6 @@ def fileAnalyzer(external_file):
     #test_file = "Logo.png"
 
     username = getpass.getuser()
-    print(username)
 
     spec_text = importlib.util.spec_from_file_location("module.name", "C:\Program Files\ALEKSI\FileAnalyzer\\text\\f4.py" )
     foo_text = importlib.util.module_from_spec(spec_text)
@@ -82,7 +81,7 @@ def fileAnalyzer(external_file):
 
     '''
 
-    fw = open("C:\\Users\\" + username + "\AppData\Local\Temp\ALEKSI\FileAnalyzer\output_text\output.txt", "w+")
+    fw = open("C:\\Users\\" + username + "\AppData\Local\Temp\ALEKSI\FileAnalyzer\output_text\output.txt", "w")
 
     #################################
 
@@ -103,7 +102,7 @@ def fileAnalyzer(external_file):
             #print("Extention from FIle : " + file_ext[1])
             return file_ext[1].lower()
 
-        def text_from_pdf(file_name) :
+        def text_from_pdf(file_name):
             pdfFileObj = open(file_name, 'rb')
             pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
             pdf_num = pdfReader.numPages
@@ -126,15 +125,23 @@ def fileAnalyzer(external_file):
             os.system('off2txt -s ' + test_file)
             file_name = test_file.split(".")
             output = file_name[0] +'-ascii.txt'
-            os.system('more '+ output)
-            fw.write(str(output))
+            print("Output :>>>>>>>>>>>"+output)
+            os.system('more ' + output)
+
+            file = open(output, 'r')
+            text = file.read().strip()
+            fw.write(str(text))
+
+            file.close()
+
+            #fw.write(str(output))
             return 0
 
         def text_from_xlr(test_file):
             book = xlrd.open_workbook(test_file)
 
-            print("The number of worksheets is {0}".format(book.nsheets))
-            print("Worksheet name(s): {0}".format(book.sheet_names()))
+            #print("The number of worksheets is {0}".format(book.nsheets))
+            #print("Worksheet name(s): {0}".format(book.sheet_names()))
             sh = book.sheet_by_index(0)
             for rx in range(sh.nrows):
                 fw.write(str(sh.row(rx)))
@@ -194,12 +201,12 @@ def fileAnalyzer(external_file):
                 shutil.move(image_path, "C:\\Users\\" + username + "\\AppData\Local\Temp\ALEKSI\FileAnalyzer\images\\")
 
         def image_from_ppt(test_file):
-            print("ppt image")
             filename, file_extension = os.path.splitext(test_file)
             zip_file = filename + ".zip"
+
             os.rename(test_file, zip_file)
             with zipfile.ZipFile(zip_file, "r") as zip_ref:
-                zip_ref.extractall("unzip_dir")
+                zip_ref.extractall("C:\\Users\\" + username + "\\AppData\Local\Temp\ALEKSI\\unzip_dir")
             #media_loc_ppt = r"C:\Program Files\ALEKSI\FileAnalyzer\unzip_dir\ppt\media\\"
             for filename in os.listdir(media_loc_ppt):
                 image_path = media_loc_ppt + filename
@@ -212,7 +219,7 @@ def fileAnalyzer(external_file):
         def magic_num_check(file_name):
             magic_output = magic.from_file(file_name, mime=True)
             magic_ext = magic_output.split("/")
-            print("Magic number check : " + magic_ext[1].lower())
+            #print("Magic number check : " + magic_ext[1].lower())
             if magic_ext[1] == "vnd.openxmlformats-officedocument.wordprocessingml.document":
                 magic_ext[1] = "docx"
                 return magic_ext[1].lower()
@@ -231,12 +238,16 @@ def fileAnalyzer(external_file):
             elif magic_ext[1] == "jpeg":
                 magic_ext[1] = "jpg"
                 return magic_ext[1].lower()
-            elif magic_ext[1] == "x-empty" or "plain":
+            elif magic_ext[1] == "x-empty":
+                magic_ext[1] = "txt"
+                return magic_ext[1].lower()
+            elif magic_ext[1] == "plain":
                 magic_ext[1] = "txt"
                 return magic_ext[1].lower()
             elif magic_ext[1].startswith("RFC"):
                 magic_ext[1] = "txt"
                 return magic_ext[1].lower()
+
             else:
                 #print("Magic number check : " + magic_ext[1].lower())
                 return magic_ext[1].lower()
@@ -329,16 +340,15 @@ def fileAnalyzer(external_file):
         evidence = copy_evid(test_file)
 
         t1 = extention_check(evidence)
-        print(t1)
+        print("extention_check : " + t1)
 
         t2 = magic_num_check(evidence)
-        print(t2)
+        print("magic_num_check : " + t2)
 
         extention_check_return = extention_comparison()
 
         result_set.append([extention_check_return])
         result_img = image_analyser()
-
 
         #print(text_analyser())
 
@@ -351,4 +361,5 @@ def fileAnalyzer(external_file):
     print(result_img)
     return result_img
 
-fileAnalyzer("test.txt")
+
+fileAnalyzer("ppt_test.pptx")
